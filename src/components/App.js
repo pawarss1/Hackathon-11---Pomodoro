@@ -6,6 +6,9 @@ const App = () => {
   let [resetFlag, setResetFlag] = useState(false);
   let [stopFlag, setStopFlag] = useState(false);
   let [startFlag, setStartFlag] = useState(false);
+  let [resetBtnDisable, setResetBtn] = useState(true);
+  let [stopBtnDisable, setStopBtn] = useState(true);
+  let [startBtnDisable, setStartBtn] = useState(false);
   let [workTime, setWorkTime] = useState(25);
   let [breakTime, setBreakTime] = useState(5);
   let [timerString, setTimer] = useState("25:00");
@@ -70,27 +73,36 @@ const App = () => {
       }
       setTimer(`${minuteNow}:${secNow}`);
       setSecondRemain(secondsRemain - 1);
-      //secondsRemain = Math.max(secondsRemain - 1, 0);
     }
   }
   function startTimer() {
     setStopFlag(false);
+    setStopBtn(false);
     setStartFlag(true);
+    setStartBtn(true);
     setResetFlag(false);
+    setResetBtn(false);
   }
   function stopTimer() {
     setStartFlag(false);
+    setStartBtn(false);
+    setStopBtn(true);
     setStopFlag(true);
+    setResetBtn(false);
     setResetFlag(false);
   }
   function resetTimer() {
     setStartFlag(false);
     setStopFlag(true);
     setResetFlag(true);
+    setStartBtn(false);
+    setResetBtn(true);
+    setStopBtn(true);
     setWorkTime(25);
     setBreakTime(5);
     setTimer(`25:00`);
     setSecondRemain(1500);
+    setTask(false);
   }
   
   return (
@@ -110,11 +122,11 @@ const App = () => {
       </div>
       <div>
         <div>
-          <button data-testid="start-btn" onClick={startTimer} disabled={startFlag}>
+          <button data-testid="start-btn" onClick={startTimer} disabled={startBtnDisable}>
             Start
           </button>
-          <button data-testid="stop-btn" onClick={stopTimer} disabled={stopFlag}>Stop</button>
-          <button data-testid="reset-btn" onClick={resetTimer} disabled={resetFlag}>Reset</button>
+          <button data-testid="stop-btn" onClick={stopTimer} disabled={stopBtnDisable}>Stop</button>
+          <button data-testid="reset-btn" onClick={resetTimer} disabled={resetBtnDisable}>Reset</button>
         </div>
 
         <div className="timer-grp">
