@@ -87,7 +87,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    intervalId = setInterval(tick, 1000);
+    console.log("here");
+    intervalId = setTimeout(tick, 1000);
     return () => clearInterval(intervalId);
   });
 
