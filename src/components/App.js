@@ -33,7 +33,8 @@ const App = () => {
     }
     setBreakTime(event.target.value);
   }
-  function setDurations() {
+  function setDurations(event) {
+    event.preventDefault();
     if (workTime == 0 && breakTime == 0) {
       setWorkTime(25);
       setBreakTime(5);
@@ -42,11 +43,12 @@ const App = () => {
       const temp = workTime < 10 ? `0${workTime}` : workTime;
       setTimer(`${temp}:00`);
     }
+    console.log("here");
     setSecondRemain(60 * workTime - 1);
   }
   function getFormatedTime() {
     if (!stopFlag && startFlag) {
-      console.log(secondsRemain);
+      //console.log(secondsRemain);
       let minuteNow = Math.floor(secondsRemain / 60);
       let secNow = secondsRemain % 60;
       minuteNow = minuteNow < 10 ? `0${minuteNow}` : minuteNow;
@@ -62,12 +64,12 @@ const App = () => {
           //worktime
           const temp = breakTime < 10 ? `0${breakTime}` : breakTime;
           setTimer(`${temp}:00`);
-          setSecondRemain(60 * breakTime);
+          setSecondRemain(60 * breakTime - 1);
         } else {
           //break time
           const temp = workTime < 10 ? `0${workTime}` : workTime;
           setTimer(`${temp}:00`);
-          setSecondRemain(60 * workTime);
+          setSecondRemain(60 * workTime - 1);
         }
         setTask(!curTask);
         return;
@@ -147,35 +149,32 @@ const App = () => {
         </div>
 
         <div className="timer-grp">
-          <input
-            type="number"
-            data-testid="work-duration"
-            placeholder="work duration"
-            value={workTime}
-            onChange={(event) => {
-              updateWorkTime(event);
-            }}
-            required
-            disabled={startFlag}
-          ></input>
-          <input
-            type="number"
-            data-testid="break-duration"
-            placeholder="break duration"
-            value={breakTime}
-            onChange={(event) => {
-              updateBreakTime(event);
-            }}
-            required
-            disabled={startFlag}
-          ></input>
-          <button
-            data-testid="set-btn"
-            onClick={setDurations}
-            disabled={startFlag}
-          >
-            Set
-          </button>
+          <form onSubmit={setDurations}>
+            <input
+              type="number"
+              data-testid="work-duration"
+              placeholder="work duration"
+              value={workTime}
+              onChange={(event) => {
+                updateWorkTime(event);
+              }}
+              required
+              disabled={startFlag}
+            ></input>
+            <input
+              type="number"
+              data-testid="break-duration"
+              placeholder="break duration"
+              value={breakTime}
+              onChange={(event) => {
+                updateBreakTime(event);
+              }}
+              required
+              disabled={startFlag}
+            ></input>
+            <input data-testid="set-btn" type="submit" disabled={startFlag} value="Set">
+            </input>
+          </form>
         </div>
       </div>
     </div>
