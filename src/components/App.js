@@ -12,7 +12,7 @@ const App = () => {
   let [workTime, setWorkTime] = useState(25);
   let [breakTime, setBreakTime] = useState(5);
   let [timerString, setTimer] = useState("25:00");
-  let [secondsRemain, setSecondRemain] = useState(1500);
+  let [secondsRemain, setSecondRemain] = useState(1499);
   let intervalId = null;
   //false for worktime and true for break time.
   useEffect(() => {
@@ -42,10 +42,11 @@ const App = () => {
       const temp = workTime < 10 ? `0${workTime}` : workTime;
       setTimer(`${temp}:00`);
     }
-    setSecondRemain(60 * workTime);
+    setSecondRemain(60 * workTime - 1);
   }
   function getFormatedTime() {
     if (!stopFlag && startFlag) {
+      console.log(secondsRemain);
       let minuteNow = Math.floor(secondsRemain / 60);
       let secNow = secondsRemain % 60;
       minuteNow = minuteNow < 10 ? `0${minuteNow}` : minuteNow;
@@ -53,7 +54,7 @@ const App = () => {
       if (minuteNow === "00" && secNow === "00") {
         //clearInterval(intervalId);
         //intervalId = null;
-        console.log(curTask);
+        //console.log(curTask);
         curTask == false
           ? alert("work duration is over")
           : alert("break duration is over");
@@ -101,10 +102,10 @@ const App = () => {
     setWorkTime(25);
     setBreakTime(5);
     setTimer(`25:00`);
-    setSecondRemain(1500);
+    setSecondRemain(1499);
     setTask(false);
   }
-  
+
   return (
     <div id="main" className="container">
       <div>
@@ -122,11 +123,27 @@ const App = () => {
       </div>
       <div>
         <div>
-          <button data-testid="start-btn" onClick={startTimer} disabled={startBtnDisable}>
+          <button
+            data-testid="start-btn"
+            onClick={startTimer}
+            disabled={startBtnDisable}
+          >
             Start
           </button>
-          <button data-testid="stop-btn" onClick={stopTimer} disabled={stopBtnDisable}>Stop</button>
-          <button data-testid="reset-btn" onClick={resetTimer} disabled={resetBtnDisable}>Reset</button>
+          <button
+            data-testid="stop-btn"
+            onClick={stopTimer}
+            disabled={stopBtnDisable}
+          >
+            Stop
+          </button>
+          <button
+            data-testid="reset-btn"
+            onClick={resetTimer}
+            disabled={resetBtnDisable}
+          >
+            Reset
+          </button>
         </div>
 
         <div className="timer-grp">
@@ -152,7 +169,11 @@ const App = () => {
             required
             disabled={startFlag}
           ></input>
-          <button data-testid="set-btn" onClick={setDurations} disabled={startFlag}>
+          <button
+            data-testid="set-btn"
+            onClick={setDurations}
+            disabled={startFlag}
+          >
             Set
           </button>
         </div>
